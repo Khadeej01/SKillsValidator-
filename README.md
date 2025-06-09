@@ -94,3 +94,9 @@ Administrative Management:
 
 
 
+**. Sequence diagram :**
+![image](https://github.com/user-attachments/assets/002a43d5-98ed-4ac9-beb5-dd574813544b)
+
+
+
+
