@@ -86,6 +86,11 @@ Administrative Management:
 
 
 **. Use case diagram :**
-![image](https://github.com/user-attachments/assets/e6eaf99b-1626-4bc9-babc-e9e7b93a332f)
+![image](https://github.com/user-attachments/assets/aec121bf-671a-4d67-9cfe-59132cd8fc5e)
+
+
+**. Class diagram :**
+![image](https://github.com/user-attachments/assets/9c405886-69ab-41d9-811e-483217259972)
+
 
 
