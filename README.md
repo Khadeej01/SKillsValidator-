@@ -94,8 +94,14 @@ Administrative Management:
 
 
 
-**. Sequence diagram :**
-![image](https://github.com/user-attachments/assets/002a43d5-98ed-4ac9-beb5-dd574813544b)
+**. Sequence diagram for user :**
+![image](https://github.com/user-attachments/assets/aa2ceb7a-36a2-48ad-b3bb-245777c92ffd)
+
+
+**. Sequence diagram for mentor :**
+
+
+
 
 
 
