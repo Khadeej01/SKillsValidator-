@@ -1,4 +1,8 @@
 package org.skillsvalidator.skillsvalidator.repository;
 
-public class ApprenantRepository {
+
+import org.skillsvalidator.skillsvalidator.model.Apprenant;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ApprenantRepository extends JpaRepository<Apprenant, Long> {
 }
