@@ -1,13 +1,11 @@
 package org.skillsvalidator.skillsvalidator.dto;
 
-
-
 public class SousCompetenceDTO {
     private Long id;
-    private String nom;
-    private String description;
-    private boolean valide;
+    private String name;
+    private boolean validated;
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -16,27 +14,19 @@ public class SousCompetenceDTO {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public boolean isValidated() {
+        return validated;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isValide() {
-        return valide;
-    }
-
-    public void setValide(boolean valide) {
-        this.valide = valide;
+    public void setValidated(boolean validated) {
+        this.validated = validated;
     }
 }

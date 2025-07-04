@@ -1,42 +1,67 @@
 package org.skillsvalidator.skillsvalidator.service.impl;
 
-
-import lombok.RequiredArgsConstructor;
+import org.skillsvalidator.skillsvalidator.dto.CompetenceDTO;
+import org.skillsvalidator.skillsvalidator.dto.SousCompetenceDTO;
+import org.skillsvalidator.skillsvalidator.mapper.CompetenceMapper;
 import org.skillsvalidator.skillsvalidator.model.Competence;
 import org.skillsvalidator.skillsvalidator.model.SousCompetence;
 import org.skillsvalidator.skillsvalidator.repository.CompetenceRepository;
 import org.skillsvalidator.skillsvalidator.repository.SousCompetenceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class CompetenceService {
-    private final CompetenceRepository competenceRepository;
+    @Autowired
+    private CompetenceRepository competenceRepository;
 
-    // Opérations purement liées aux compétences
-    public Competence createCompetence(Competence competence) {
-        return competenceRepository.save(competence);
+    @Autowired
+    private SousCompetenceRepository sousCompetenceRepository;
+
+    @Autowired
+    private CompetenceMapper competenceMapper;
+
+    public CompetenceDTO createCompetence(CompetenceDTO competenceDTO) {
+        Competence competence = competenceMapper.toEntity(competenceDTO);
+        competence.getSousCompetences().forEach(sousCompetence -> sousCompetence.setCompetence(competence));
+        Competence savedCompetence = competenceRepository.save(competence);
+        return competenceMapper.toDto(savedCompetence);
     }
 
-    public List<Competence> getAllCompetences() {
-        return competenceRepository.findAll();
+    public CompetenceDTO getCompetence(Long id) {
+        Optional<Competence> competence = competenceRepository.findById(id);
+        return competence.map(competenceMapper::toDto).orElse(null);
     }
 
-    public Competence getCompetenceById(Long id) {
-        return competenceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Compétence non trouvée"));
+    public SousCompetenceDTO updateSousCompetence(Long competenceId, Long sousId, SousCompetenceDTO sousCompetenceDTO) {
+        Optional<SousCompetence> sousCompetence = sousCompetenceRepository.findById(sousId);
+        if (sousCompetence.isPresent()) {
+            SousCompetence updatedSousCompetence = sousCompetence.get();
+            updatedSousCompetence.setValidated(sousCompetenceDTO.isValidated());
+            sousCompetenceRepository.save(updatedSousCompetence);
+
+            // Logique de validation de la compétence
+            Optional<Competence> competenceOpt = competenceRepository.findById(competenceId);
+            if (competenceOpt.isPresent()) {
+                Competence competence = competenceOpt.get();
+                List<SousCompetence> sousCompetences = competence.getSousCompetences();
+                boolean allValidated = sousCompetences.stream().allMatch(SousCompetence::isValidated);
+                competence.setValidated(allValidated);
+                competenceRepository.save(competence);
+            }
+
+            return competenceMapper.toSousCompetenceDto(updatedSousCompetence);
+        }
+        return null;
     }
 
     public void deleteCompetence(Long id) {
-        competenceRepository.deleteById(id);
-    }
-
-    public Competence updateCompetence(Long id, Competence updatedCompetence) {
-        Competence existing = getCompetenceById(id);
-        existing.setName(updatedCompetence.getName());
-        existing.setDescription(updatedCompetence.getDescription());
-        return competenceRepository.save(existing);
+        if (competenceRepository.existsById(id)) {
+            competenceRepository.deleteById(id);
+        }
     }
 }

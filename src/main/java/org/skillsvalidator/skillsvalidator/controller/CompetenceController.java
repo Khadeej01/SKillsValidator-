@@ -1,29 +1,40 @@
 package org.skillsvalidator.skillsvalidator.controller;
 
-
-import lombok.RequiredArgsConstructor;
-import org.skillsvalidator.skillsvalidator.model.Competence;
-
+import org.skillsvalidator.skillsvalidator.dto.CompetenceDTO;
+import org.skillsvalidator.skillsvalidator.dto.SousCompetenceDTO;
 import org.skillsvalidator.skillsvalidator.service.impl.CompetenceService;
+import org.skillsvalidator.skillsvalidator.service.impl.SousCompetenceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/competences")
-@RequiredArgsConstructor
 public class CompetenceController {
-    private final CompetenceService competenceService;
-
-    @GetMapping
-    public List<Competence> getAll() {
-        return competenceService.getAllCompetences();
-    }
+    @Autowired
+    private CompetenceService competenceService;
 
     @PostMapping
-    public Competence create(@RequestBody Competence competence) {
-        return competenceService.createCompetence(competence);
+    public ResponseEntity<CompetenceDTO> createCompetence(@RequestBody CompetenceDTO competenceDTO) {
+        CompetenceDTO savedCompetence = competenceService.createCompetence(competenceDTO);
+        return ResponseEntity.ok(savedCompetence);
     }
 
-    // Pas de mélange avec les sous-compétences ici !
+    @GetMapping("/{id}")
+    public ResponseEntity<CompetenceDTO> getCompetence(@PathVariable Long id) {
+        CompetenceDTO competence = competenceService.getCompetence(id);
+        return competence != null ? ResponseEntity.ok(competence) : ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}/sousCompetences/{sousId}")
+    public ResponseEntity<SousCompetenceDTO> updateSousCompetence(@PathVariable Long id, @PathVariable Long sousId, @RequestBody SousCompetenceDTO sousCompetenceDTO) {
+        SousCompetenceDTO updatedSousCompetence = competenceService.updateSousCompetence(id, sousId, sousCompetenceDTO);
+        return updatedSousCompetence != null ? ResponseEntity.ok(updatedSousCompetence) : ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCompetence(@PathVariable Long id) {
+        competenceService.deleteCompetence(id);
+        return ResponseEntity.ok().build();
+    }
 }
