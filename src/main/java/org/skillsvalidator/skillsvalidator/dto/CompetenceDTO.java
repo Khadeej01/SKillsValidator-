@@ -1,12 +1,13 @@
 package org.skillsvalidator.skillsvalidator.dto;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class CompetenceDTO {
     private Long id;
     private String name;
     private boolean validated;
-    private List<SousCompetenceDTO> sousCompetences;
+    private List<SousCompetenceDTO> sousCompetences = new ArrayList<>();
 
     // Getters and Setters
     public Long getId() {

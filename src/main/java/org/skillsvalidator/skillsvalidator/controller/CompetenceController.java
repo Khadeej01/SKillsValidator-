@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/competences")
 public class CompetenceController {
@@ -18,6 +20,11 @@ public class CompetenceController {
     public ResponseEntity<CompetenceDTO> createCompetence(@RequestBody CompetenceDTO competenceDTO) {
         CompetenceDTO savedCompetence = competenceService.createCompetence(competenceDTO);
         return ResponseEntity.ok(savedCompetence);
+    }
+
+    @GetMapping
+    public List<CompetenceDTO> getAllCompetences() {
+        return competenceService.getAllCompetences();
     }
 
     @GetMapping("/{id}")

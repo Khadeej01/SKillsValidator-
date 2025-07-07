@@ -17,7 +17,7 @@ public interface CompetenceMapper {
     List<CompetenceDTO> toDtoList(List<Competence> competences);
     List<Competence> toEntityList(List<CompetenceDTO> competenceDTOs);
 
-    // Mapping pour SousCompetence sans référence à competence
+
     SousCompetenceDTO toSousCompetenceDto(SousCompetence sousCompetence);
     SousCompetence toSousCompetenceEntity(SousCompetenceDTO sousCompetenceDTO);
 

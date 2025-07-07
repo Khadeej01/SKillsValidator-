@@ -27,9 +27,19 @@ public class CompetenceService {
 
     public CompetenceDTO createCompetence(CompetenceDTO competenceDTO) {
         Competence competence = competenceMapper.toEntity(competenceDTO);
+        if (competence.getSousCompetences() == null) {
+            competence.setSousCompetences(new java.util.ArrayList<>());
+        }
         competence.getSousCompetences().forEach(sousCompetence -> sousCompetence.setCompetence(competence));
         Competence savedCompetence = competenceRepository.save(competence);
         return competenceMapper.toDto(savedCompetence);
+    }
+
+    public List<CompetenceDTO> getAllCompetences() {
+        List<Competence> competences = competenceRepository.findAll();
+        return competences.stream()
+                .map(competenceMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     public CompetenceDTO getCompetence(Long id) {

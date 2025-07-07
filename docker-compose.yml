@@ -1,27 +1,27 @@
-
-        version: '3.8'
-        services:
-          app:
-            build:
-              context: .
-              dockerfile: Dockerfile
-            ports:
-              - "8080:8080"
-            environment:
-              - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/competences_db
-              - SPRING_DATASOURCE_USERNAME=admin
-              - SPRING_DATASOURCE_PASSWORD=Root@123
-            depends_on:
-              - db
-          db:
-            image: postgres:15
-            environment:
-              - POSTGRES_DB=competence_db
-              - POSTGRES_USER=admin
-              - POSTGRES_PASSWORD=password
-            ports:
-              - "5432:5432"
-            volumes:
-              - db_data:/var/lib/postgresql/data
-        volumes:
-          db_data:
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/competences_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=Root@123
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=competences_db
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=Root@123
+      - MYSQL_ROOT_PASSWORD=Root@123
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  db_data:

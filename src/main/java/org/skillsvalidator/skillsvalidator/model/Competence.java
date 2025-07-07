@@ -2,6 +2,7 @@ package org.skillsvalidator.skillsvalidator.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 public class Competence {
@@ -13,7 +14,7 @@ public class Competence {
     private boolean validated;
 
     @OneToMany(mappedBy = "competence", cascade = CascadeType.ALL)
-    private List<SousCompetence> sousCompetences;
+    private List<SousCompetence> sousCompetences = new ArrayList<>();
 
     // Getters and Setters
     public Long getId() {
